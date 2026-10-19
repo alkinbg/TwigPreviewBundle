@@ -1,0 +1,50 @@
+name: Bug report
+description: Report an issue you can reproduce with Twig Preview Bundle.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Thanks for reporting a bug. Please use synthetic data in reproductions.
+        For potential security issues, use private vulnerability reporting instead of a public issue.
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Bundle version, PHP version, Symfony version, and Twig version.
+      placeholder: "Bundle 1.0.0 · PHP 8.4 · Symfony 8.1 · Twig 3"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: A minimal example or clear sequence of steps is ideal.
+      placeholder: |
+        1. Create templates/previews/...
+        2. Add config/twig_previews/...
+        3. Open /_dev/twig-preview/...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include sanitized error output if helpful. Never share credentials or personal data.
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Optional screenshots, relevant configuration, or workarounds.
+    validations:
+      required: false
