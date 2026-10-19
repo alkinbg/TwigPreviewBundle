@@ -1,0 +1,15 @@
+{# Copy this file to templates/previews/product.html.twig. #}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product preview</title>
+</head>
+<body>
+    <main>
+        <h1>{{ product.name }}</h1>
+        <p>Price: {{ product.price|number_format(2, '.', ' ') }} EUR</p>
+        <p>{{ product.available ? 'In stock' : 'Out of stock' }}</p>
+    </main>
+</body>
+</html>

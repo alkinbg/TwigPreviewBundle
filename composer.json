@@ -1,0 +1,41 @@
+{
+  "name": "alkin/twig-preview-bundle",
+  "description": "Preview Twig templates with optional JSON fixtures inside a Symfony development application.",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "symfony/framework-bundle": "^7.4 || ^8.0",
+    "symfony/twig-bundle": "^7.4 || ^8.0",
+    "twig/twig": "^3.20"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5 || ^11.5 || ^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Novora\\TwigPreviewBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Novora\\TwigPreviewBundle\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "keywords": [
+    "symfony",
+    "twig",
+    "template",
+    "preview",
+    "fixtures",
+    "development"
+  ],
+  "homepage": "https://github.com/alkinbg/TwigPreviewBundle",
+  "support": {
+    "issues": "https://github.com/alkinbg/TwigPreviewBundle/issues",
+    "source": "https://github.com/alkinbg/TwigPreviewBundle"
+  }
+}
