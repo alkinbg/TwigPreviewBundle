@@ -33,7 +33,7 @@ final class JsonFixtureLoaderTest extends TestCase
 
     public function testMissingFixtureReturnsEmptyContext(): void
     {
-        self::assertSame([], new JsonFixtureLoader($this->projectDir)->load('missing'));
+        self::assertSame([], (new JsonFixtureLoader($this->projectDir))->load('missing'));
     }
 
     public function testValidJsonObjectLoadsAsTwigContext(): void
@@ -42,34 +42,34 @@ final class JsonFixtureLoaderTest extends TestCase
 
         self::assertSame(
             ['title' => 'Hello', 'product' => ['price' => 15]],
-            new JsonFixtureLoader($this->projectDir)->load('card'),
+            (new JsonFixtureLoader($this->projectDir))->load('card'),
         );
     }
 
     public function testRejectsTraversal(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new JsonFixtureLoader($this->projectDir)->load('../.env');
+        (new JsonFixtureLoader($this->projectDir))->load('../.env');
     }
 
     public function testRejectsInvalidJson(): void
     {
         file_put_contents($this->projectDir.'/config/twig_previews/bad.json', '{bad');
         $this->expectException(InvalidArgumentException::class);
-        new JsonFixtureLoader($this->projectDir)->load('bad');
+        (new JsonFixtureLoader($this->projectDir))->load('bad');
     }
 
     public function testRejectsListInsteadOfObject(): void
     {
         file_put_contents($this->projectDir.'/config/twig_previews/list.json', '[1,2,3]');
         $this->expectException(InvalidArgumentException::class);
-        new JsonFixtureLoader($this->projectDir)->load('list');
+        (new JsonFixtureLoader($this->projectDir))->load('list');
     }
 
     public function testRejectsOversizedFixture(): void
     {
         file_put_contents($this->projectDir.'/config/twig_previews/huge.json', '{"data":"'.str_repeat('x', 131072).'"}');
         $this->expectException(InvalidArgumentException::class);
-        new JsonFixtureLoader($this->projectDir)->load('huge');
+        (new JsonFixtureLoader($this->projectDir))->load('huge');
     }
 }

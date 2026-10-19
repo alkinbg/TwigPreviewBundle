@@ -15,7 +15,7 @@ Preview Twig templates in a **real Symfony application** without creating a temp
 
 Use a Composer [path repository](https://getcomposer.org/doc/05-repositories.md#path) or a Git VCS repository until the package is published to Packagist.
 
-Install this package as a development dependency. Register **only in dev**:
+Install this package as a development dependency. Symfony Flex may register it automatically for development and tests. If it does not, register it **only for development**:
 
 ```php
 // config/bundles.php
@@ -29,6 +29,8 @@ Then import the two preview routes **only in dev**:
 novora_twig_preview:
   resource: '@NovoraTwigPreviewBundle/config/routes.yaml'
 ```
+
+If you added the routes after Symfony had already warmed its cache, run `php bin/console cache:clear --env=dev`.
 
 Copy `examples/product.html.twig` to `templates/previews/product.html.twig` and `examples/product.json` to `config/twig_previews/product.json` (adjust the base layout as needed).
 
