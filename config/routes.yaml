@@ -1,0 +1,11 @@
+novora_twig_preview_index:
+  path: /_dev/twig-preview
+  controller: Novora\TwigPreviewBundle\Controller\PreviewController::index
+  methods: [GET]
+
+novora_twig_preview_show:
+  path: /_dev/twig-preview/{name}
+  controller: Novora\TwigPreviewBundle\Controller\PreviewController::show
+  requirements:
+    name: '[A-Za-z0-9_-]{1,100}'
+  methods: [GET]
