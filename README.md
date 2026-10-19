@@ -1,70 +1,95 @@
 # Twig Preview Bundle
 
-Preview Twig templates in a **real Symfony application** without creating a temporary controller and route for each template.
+Preview a Twig template **inside your Symfony application**, using its real Twig extensions, components, themes and configuration. No temporary controller or route for each preview.
 
-> **Status:** Experimental. Intended for local development only; not published to Packagist yet.
+**Stable release:** 1.0.0 · **Requirements:** PHP 8.2+, Symfony 7.4 or 8.x, Twig 3.
 
-## What it does
+## What you get
 
-- Lists all `templates/previews/*.html.twig` files at `/_dev/twig-preview`.
-- Renders a preview by name at `/_dev/twig-preview/{name}` using the application's real Twig environment.
-- Optionally supplies variables from `config/twig_previews/{name}.json`.
-- Does not write to the database, expose a fixture editor, or require JavaScript.
+- A preview index at `/_dev/twig-preview`, listing `templates/previews/*.html.twig`.
+- A preview page at `/_dev/twig-preview/{name}`, rendered with your application's Twig environment.
+- Optional JSON fixture values from `config/twig_previews/{name}.json`.
+- No database, JavaScript, generated application files, or code changes when refreshing a preview.
 
-## Install locally
+The package **only works in the `dev` environment**. Do not expose your development server publicly.
 
-Use a Composer [path repository](https://getcomposer.org/doc/05-repositories.md#path) or a Git VCS repository until the package is published to Packagist.
+## Installation
 
-Install this package as a development dependency. Symfony Flex may register it automatically for development and tests. If it does not, register it **only for development**:
+### From GitHub
+
+Until this package is registered on Packagist, add its public Git repository to Composer:
+
+```bash
+composer config repositories.twig-preview vcs https://github.com/alkinbg/TwigPreviewBundle.git
+composer require --dev 'alkin/twig-preview-bundle:^1.0'
+```
+
+Once it is available on Packagist, only `composer require --dev 'alkin/twig-preview-bundle:^1.0'` is needed.
+
+Symfony Flex may register the bundle automatically. Check `config/bundles.php`, and make sure it is enabled **only in development** (optionally also in `test`), not `all`:
 
 ```php
 // config/bundles.php
 Novora\TwigPreviewBundle\NovoraTwigPreviewBundle::class => ['dev' => true],
 ```
 
-Then import the two preview routes **only in dev**:
+Import the preview routes only in development:
 
-```yaml
-# config/routes/dev/novora_twig_preview.yaml
-novora_twig_preview:
-  resource: '@NovoraTwigPreviewBundle/config/routes.yaml'
+```php
+<?php
+// config/routes/dev/novora_twig_preview.php
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+return static function (RoutingConfigurator $routes): void {
+    $routes->import('@NovoraTwigPreviewBundle/config/routes.php');
+};
 ```
 
-If you added the routes after Symfony had already warmed its cache, run `php bin/console cache:clear --env=dev`.
+If the application already cached its routes, run:
 
-Copy `examples/product.html.twig` to `templates/previews/product.html.twig` and `examples/product.json` to `config/twig_previews/product.json` (adjust the base layout as needed).
+```bash
+php bin/console cache:clear --env=dev
+```
 
-Visit:
+### Create your first preview
+
+Copy `examples/product.html.twig` into `templates/previews/product.html.twig` and `examples/product.json` into `config/twig_previews/product.json`.
+
+Then open:
 
 ```text
 http://localhost:8000/_dev/twig-preview
 http://localhost:8000/_dev/twig-preview/product
 ```
 
-The preview template can include a real component from your application:
+Edit your template or JSON and refresh the page.
+
+### Preview an existing component
+
+The preview itself is an ordinary Twig template. It can extend a layout, include other templates, or render Twig Components already configured in your application:
 
 ```twig
 {# templates/previews/product_card.html.twig #}
 {% include 'components/_product_card.html.twig' with {product: product} only %}
 ```
 
-In `config/twig_previews/product_card.json`:
+The matching data file is `config/twig_previews/product_card.json`:
 
 ```json
 {
-  "product": {"name": "Example", "price": 19.99}
+  "product": {"name": "Demo product", "price": 19.99}
 }
 ```
 
-The JSON fixture is **optional**; without one, Twig receives an empty preview context. Fixture names must match preview template names and contain only ASCII letters, digits, `-`, or `_` (up to 100 characters). Fixtures must be JSON objects no larger than 128 KiB.
+Only JSON objects are accepted at the root of fixture files. Fixtures are optional, limited to **128 KiB** and a maximum JSON nesting depth of 32. Preview names may use ASCII letters, digits, `-` and `_` (1–100 characters). Template names must be flat files matching `*.html.twig` inside `templates/previews`.
 
-## Limitations
+## Limitations and security
 
-Fixtures are JSON, so they cannot model real PHP objects, methods, Doctrine entities, or Symfony Forms. Previews requiring those should use a purpose-built example page. The bundle doesn't watch files; refresh the browser to see changes.
-
-## Safety
-
-**Never enable the bundle or its routes outside dev.** The controller also refuses to run unless `kernel.environment` is exactly `dev`. Keep dev servers private. Even with fixed template names, rendering a real application's Twig templates may access application services or data. Do not put credentials or real user data in fixtures. Responses are marked `no-store` and `noindex`.
+- JSON fixtures contain scalar values and arrays. They cannot instantiate Doctrine entities, Symfony Forms or arbitrary PHP objects. A component needing those values requires an application-specific adapter or example.
+- A preview uses the application's *real* Twig services. Although this bundle never writes to a database, a template that invokes application services might have side effects.
+- Route matching and the controller enforce `dev`-only access. Responses set `Cache-Control: private, no-store` and `X-Robots-Tag: noindex, nofollow`; these are **not authentication**. Keep the development server private.
+- The package does not provide browser live reload: refresh the page after changes.
 
 ## Development
 
@@ -74,6 +99,8 @@ composer validate --strict
 composer test
 ```
 
+CI tests PHP 8.2, 8.3 and 8.4. The test suite includes real Symfony HTTP/kernel integration tests.
+
 ## License
 
-MIT. Copyright 2026 Novora Labs.
+MIT. Copyright © 2026 Novora Labs.

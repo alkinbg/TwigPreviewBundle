@@ -24,5 +24,18 @@
   },
   "scripts": {
     "test": "phpunit"
+  },
+  "keywords": [
+    "symfony",
+    "twig",
+    "template",
+    "preview",
+    "fixtures",
+    "development"
+  ],
+  "homepage": "https://github.com/alkinbg/TwigPreviewBundle",
+  "support": {
+    "issues": "https://github.com/alkinbg/TwigPreviewBundle/issues",
+    "source": "https://github.com/alkinbg/TwigPreviewBundle"
   }
 }
