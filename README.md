@@ -1,5 +1,9 @@
 # Twig Preview Bundle
 
+[![Tests](https://github.com/alkinbg/TwigPreviewBundle/actions/workflows/tests.yaml/badge.svg)](https://github.com/alkinbg/TwigPreviewBundle/actions/workflows/tests.yaml)
+[![Release](https://img.shields.io/github/v/release/alkinbg/TwigPreviewBundle)](https://github.com/alkinbg/TwigPreviewBundle/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/alkinbg/TwigPreviewBundle)](LICENSE)
+
 Preview a Twig template **inside your Symfony application**, using its real Twig extensions, components, themes and configuration. No temporary controller or route for each preview.
 
 **Stable release:** 1.0.0 · **Requirements:** PHP 8.2+, Symfony 7.4 or 8.x, Twig 3.
@@ -9,7 +13,7 @@ Preview a Twig template **inside your Symfony application**, using its real Twig
 - A preview index at `/_dev/twig-preview`, listing `templates/previews/*.html.twig`.
 - A preview page at `/_dev/twig-preview/{name}`, rendered with your application's Twig environment.
 - Optional JSON fixture values from `config/twig_previews/{name}.json`.
-- No database, JavaScript, generated application files, or code changes when refreshing a preview.
+- No bundled JavaScript, generated application files or database schema changes. Refresh the browser to see template and fixture updates.
 
 The package **only works in the `dev` environment**. Do not expose your development server publicly.
 
@@ -90,6 +94,12 @@ Only JSON objects are accepted at the root of fixture files. Fixtures are option
 - A preview uses the application's *real* Twig services. Although this bundle never writes to a database, a template that invokes application services might have side effects.
 - Route matching and the controller enforce `dev`-only access. Responses set `Cache-Control: private, no-store` and `X-Robots-Tag: noindex, nofollow`; these are **not authentication**. Keep the development server private.
 - The package does not provide browser live reload: refresh the page after changes.
+
+## Contributing and security
+
+Contributions and reports are welcome. See [Contributing](CONTRIBUTING.md), the [Code of Conduct](CODE_OF_CONDUCT.md), and [Accessibility](ACCESSIBILITY.md).
+
+Please report potential vulnerabilities **privately**, following the [Security Policy](SECURITY.md), not in public issues.
 
 ## Development
 

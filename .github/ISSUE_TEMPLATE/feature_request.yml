@@ -1,0 +1,34 @@
+name: Feature request
+description: Suggest a focused developer convenience or small enhancement.
+title: "[Idea]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: >
+        This bundle intentionally stays small. Show the repeated work a change would remove,
+        preferably with a short Twig or PHP example.
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What are you trying to do?
+      description: Describe the repeated steps or boilerplate you want to eliminate.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed experience
+      description: Show what using the improvement could look like.
+      placeholder: |
+        Example Twig or PHP code, or a short user workflow.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Workarounds and alternatives
+      description: Optional existing tools or approaches you already tried.
+    validations:
+      required: false
